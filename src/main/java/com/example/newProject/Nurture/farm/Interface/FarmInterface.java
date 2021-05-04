@@ -11,11 +11,12 @@ public interface FarmInterface {
     @PostMapping("/api/v1/fillData")
     ResponseEntity<FarmResponse> fillFarmCropDetails(@RequestBody FarmRequest request);
 
-    @GetMapping("/api/v1/getData")
+    @GetMapping("/api/v1/getLatestData")
     ResponseEntity<FarmResponse> getLatestCropData(@RequestParam("state") String state, @RequestParam("crop") String crop,
                                                    @RequestParam("district") String district, @RequestParam("variety") String variety);
 
-    @GetMapping("/api/v1/getData")
-    ResponseEntity<FarmResponse> getLatestCropData(@RequestParam("state") String state, @RequestParam("crop") String crop,
-                                                   @RequestParam("district") String district, @RequestParam("variety") String variety);
+    @GetMapping("/api/v1/getDataByLimit")
+    ResponseEntity<FarmResponse> getDataByLimit(@RequestParam("mandi") String mandi, @RequestParam("crop") String crop,
+                                                   @RequestParam("variety") String variety, @RequestParam("elements") Integer elements,
+                                                   @RequestParam("limit") Integer limit);
 }

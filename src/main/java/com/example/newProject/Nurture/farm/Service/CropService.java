@@ -64,6 +64,10 @@ public class CropService {
 
     }
 
+    public FarmResponse getDataByLimit(String mandi, String crop, String variety, Integer elements, Integer limit) {
+
+    }
+
 
     public Mandi getMandiWthName(FarmData item) {
         if(!mandiMap.containsKey(item.getMandiName())) {
