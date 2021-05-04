@@ -1,24 +1,25 @@
 package com.example.newProject.Nurture.farm.Service;
 
 import com.example.newProject.Nurture.farm.Util.FarmUtil;
-import com.example.newProject.Nurture.farm.dto.*;
+import com.example.newProject.Nurture.farm.DTO.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
+@Service
 public class CropService {
 
-    Map<String, Mandi> mandiMap;
-    Map<String, State> stateMap;
-    Map<String, Crop> cropMap;
-    Map<String, Variety> varietyMap;
+    Map<String, Mandi> mandiMap = new HashMap<>();
+    Map<String, State> stateMap = new HashMap<>();
+    Map<String, Crop> cropMap = new HashMap<>();
+    Map<String, Variety> varietyMap = new HashMap<>();
 
 
     public FarmResponse fillCropData(FarmRequest request) {
@@ -35,7 +36,7 @@ public class CropService {
             Mandi mandi = getMandiWthName(item);
             Crop crop = getCropWithName(item);
 
-            Date date = FarmUtil.parseDate(item.getDate());
+            LocalDate date = LocalDate.parse(item.getDate());
             PriceDetails priceDetails = new PriceDetails(crop, date, item.getPrice());
 
             mandi.addCropPrice(date, crop, priceDetails);
@@ -59,15 +60,35 @@ public class CropService {
             res.setData(currDist.getCropPriceDetails(cropNew));
 
         }
+        res.setMessage("Success");
+        res.setStatus(HttpStatus.OK.toString());
 
         return res;
 
     }
 
-    public FarmResponse getDataByLimit(String mandi, String crop, String variety, Integer elements, Integer limit) {
-        
+    public Object getDataByLimit(String mandiName, String cropName, String variety, int elements, int limit) {
 
+        FarmResponse res = new FarmResponse();
+
+        Crop crop = cropMap.get(cropName + variety);
+        Mandi mandi = mandiMap.get(mandiName);
+        LocalDate todayDate = LocalDate.now();
+
+        List<PriceDetails> priceDetails = mandi.getPricesWithCrop(crop);
+
+        List<PriceDetails> priceDetailsFilteredSorted = priceDetails.stream()
+                .filter(priceDetail ->  priceDetail.getTimestamp().isAfter(todayDate.minusDays(elements)))
+                .sorted()
+                .limit(limit)
+                .collect(Collectors.toList());
+
+        res.setStatus(HttpStatus.OK.toString());
+        res.setMessage("Success");
+        res.setData(priceDetailsFilteredSorted);
+        return res;
     }
+
 
 
     public Mandi getMandiWthName(FarmData item) {

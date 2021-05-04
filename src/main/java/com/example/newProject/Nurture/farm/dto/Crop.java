@@ -1,4 +1,4 @@
-package com.example.newProject.Nurture.farm.dto;
+package com.example.newProject.Nurture.farm.DTO;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;

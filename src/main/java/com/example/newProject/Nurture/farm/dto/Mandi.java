@@ -1,9 +1,10 @@
-package com.example.newProject.Nurture.farm.dto;
+package com.example.newProject.Nurture.farm.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @Getter
@@ -16,7 +17,7 @@ public class Mandi {
     @JsonProperty("address")
     private Address address;
 
-    Map<Date, Map<Crop, PriceDetails>> pricesMap;
+    Map<LocalDate, Map<Crop, PriceDetails>> pricesMap;
 
 
     public Mandi(String name, Address address) {
@@ -25,7 +26,7 @@ public class Mandi {
         this.pricesMap = new HashMap<>();
     }
 
-    public void addCropPrice(Date date, Crop crop, PriceDetails priceDetails) {
+    public void addCropPrice(LocalDate date, Crop crop, PriceDetails priceDetails) {
 
         if(!pricesMap.containsKey(date)) {
             pricesMap.put(date, new HashMap<>());
@@ -53,5 +54,12 @@ public class Mandi {
 
         return priceDetailsList;
 
+    }
+
+    @Override
+    public String toString() {
+        return "Mandi{" +
+                "name='" + name + '\'' +
+                '}';
     }
 }

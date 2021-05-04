@@ -1,10 +1,12 @@
-package com.example.newProject.Nurture.farm.dto;
+package com.example.newProject.Nurture.farm.DTO;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class FarmResponse {
 
     String message;
