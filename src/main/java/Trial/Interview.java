@@ -1,7 +1,4 @@
-package WalmartInterview;
-
-import lombok.Getter;
-import lombok.Setter;
+package Trial;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
